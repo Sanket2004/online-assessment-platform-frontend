@@ -14,6 +14,7 @@ import { Input } from "./ui/input"; // Shadcn Input
 import { Label } from "./ui/label"; // Shadcn Label
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert"; // Shadcn alert
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Loader } from "lucide-react";
 
 const Register = () => {
   const [email, setEmail] = useState("");
