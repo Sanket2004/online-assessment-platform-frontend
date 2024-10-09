@@ -135,7 +135,7 @@ const TestAttempt = () => {
 
     try {
       const response = await axios.post(
-        "${backendUrl}/tests/attempt",
+        `${backendUrl}/tests/attempt`,
         {
           userId: user._id,
           testId: id,
@@ -216,6 +216,9 @@ const TestAttempt = () => {
                   </h1>
                   <p className="text-gray-600 whitespace-pre-wrap break-words">
                     {test.description}
+                  </p>
+                  <p className=" whitespace-pre-wrap break-words text-gray-500 mt-2 font-semibold">
+                    Duration: {test.duration} mins
                   </p>
                   <p className="text-gray-400 text-xs">
                     {new Date(test.createdAt).toLocaleString()}
