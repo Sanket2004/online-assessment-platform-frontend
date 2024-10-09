@@ -62,7 +62,7 @@ const Dashboard = () => {
         </p>
 
         {filteredTests.length === 0 ? (
-          <p className="text-gray-500 text-xs text-center">
+          <p className="text-gray-500 text-center">
             No tests available at the moment.
           </p>
         ) : (

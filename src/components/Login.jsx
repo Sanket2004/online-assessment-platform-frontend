@@ -15,6 +15,7 @@ import { Input } from "./ui/input"; // Shadcn Input
 import { Label } from "./ui/label"; // Shadcn Label
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert"; // Shadcn alert
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Loader } from "lucide-react";
 
 const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
@@ -23,22 +24,25 @@ const Login = ({ setToken }) => {
   const { setUser } = useUser();
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${backendUrl}/auth/login`,
-        { email, password }
-      );
+      setLoading(true);
+      const response = await axios.post(`${backendUrl}/auth/login`, {
+        email,
+        password,
+      });
       const { token, user } = response.data;
       setToken(token);
       setUser(user);
       localStorage.setItem("user", JSON.stringify(user));
       //   alert("Login successful!");
       navigate("/");
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error during login:", error);
       setError("Invalid credentials. Please try again."); // Set error message
     }
@@ -85,12 +89,16 @@ const Login = ({ setToken }) => {
           </div>
 
           <Button className="w-full" onClick={handleLogin}>
-            Sign in
+            {loading ? (
+              <Loader className="h-5 w-5 animate-spin text-white" />
+            ) : (
+              "Sign in"
+            )}
           </Button>
 
           <div className="text-center text-sm">
             Already have an account?{" "}
-            <Link to={'/register'} className="underline">
+            <Link to={"/register"} className="underline">
               Sign up
             </Link>
           </div>

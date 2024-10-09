@@ -23,20 +23,26 @@ const Register = () => {
   const [error, setError] = useState(""); // State for error message
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e) => {
+    console.log(backendUrl);
+
     e.preventDefault();
     try {
+      setLoading(true);
       await axios.post(`${backendUrl}/auth/register`, {
-        email,
+        email, // Ensure these values are not empty or null
         password,
         name,
         phone,
       });
+
       alert("User registered. Please login.");
       navigate("/login");
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       if (error.response && error.response.data && error.response.data.error) {
         setError(error.response.data.error); // Display the error message from backend
       } else {
@@ -49,7 +55,7 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen ">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-xl">Sign Up</CardTitle>
+          <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
           <CardDescription>
             Enter your information to create an account
           </CardDescription>
@@ -104,7 +110,11 @@ const Register = () => {
               />
             </div>
             <Button onClick={handleRegister} className="w-full">
-              Create an account
+              {loading ? (
+                <Loader className="h-5 w-5 animate-spin text-white" />
+              ) : (
+                "Create an account"
+              )}
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
