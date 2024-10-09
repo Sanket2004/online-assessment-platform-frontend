@@ -6,20 +6,20 @@ import { Button } from "./ui/button"; // Import your button component
 import { Input } from "./ui/input"; // Import your input component
 import { Textarea } from "./ui/textarea"; // Import your textarea component
 import { Alert } from "./ui/alert"; // Import your alert component if needed
-import { Trash, Trash2Icon } from "lucide-react";
+import { Loader, Trash, Trash2Icon } from "lucide-react";
 import { useUser } from "./UserContext";
 
 const CreateTest = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("");
+  const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([
     { questionText: "", options: ["", ""], answer: "" },
   ]);
   const navigate = useNavigate();
   const { user } = useUser(); // Get user from context
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
 
   const handleQuestionChange = (index, event) => {
     const newQuestions = [...questions];
@@ -52,6 +52,7 @@ const CreateTest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await axios.post(`${backendUrl}/tests`, {
         title,
         description,
@@ -61,8 +62,10 @@ const CreateTest = () => {
       });
       alert("Test created successfully!");
       // navigate(`/tests/${response.data._id}`); // Redirect to the test details page
-      navigate('/');
+      navigate("/");
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       const message =
         error.response?.data?.message || "An unexpected error occurred.";
       alert("Error creating test: " + message);
@@ -80,7 +83,9 @@ const CreateTest = () => {
       <Navbar />
       <div className="max-w-6xl mx-auto py-8 px-6">
         <h1 className="text-2xl font-bold ">Create new assessment</h1>
-        <p className="text-gray-400 mb-8">Assessment is a way to assess someone's ability and efficiency.</p>
+        <p className="text-gray-400 mb-8">
+          Assessment is a way to assess someone's ability and efficiency.
+        </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block font-medium mb-2">Assessment Title</label>
@@ -94,18 +99,21 @@ const CreateTest = () => {
           </div>
 
           <div>
-            <label className="block font-medium mb-2">Assessment Description</label>
+            <label className="block font-medium mb-2">
+              Assessment Description
+            </label>
             <Textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
               placeholder="Compnacy specific aptitude test..."
-
             />
           </div>
 
           <div>
-            <label className="block font-medium mb-2">Assessment Duration</label>
+            <label className="block font-medium mb-2">
+              Assessment Duration
+            </label>
             <Input
               type="number"
               value={duration}
@@ -199,7 +207,11 @@ const CreateTest = () => {
               +
             </Button>
             <Button type="submit" className="w-full">
-              Create Assessment
+              {loading ? (
+                <Loader className="h-5 w-5 animate-spin text-white" />
+              ) : (
+                "Create Assessment"
+              )}
             </Button>
           </div>
         </form>
