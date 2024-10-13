@@ -208,39 +208,39 @@ const TestAttempt = () => {
   return (
     <div className="mx-auto px-6 py-8 max-w-6xl">
       <Card>
-        <form onSubmit={handleSubmit}>
-          <CardHeader className="py-4">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-              <div className="mb-4 md:mb-0">
-                <h1 className="text-2xl font-semibold text-secondary font-mono">
-                  {test.title}
-                </h1>
-                <p className="text-primary whitespace-pre-wrap break-words">
-                  {test.description}
-                </p>
-                <p className="whitespace-pre-wrap break-words text-gray-500 mt-2 font-semibold">
-                  Duration: {test.duration} mins
-                </p>
-                <p className="text-gray-400 text-xs">
-                  {new Date(test.createdAt).toLocaleString()}
-                </p>
-              </div>
+        <CardHeader className="py-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div className="mb-4 md:mb-0">
+              <h1 className="text-2xl font-semibold text-secondary font-mono">
+                {test.title}
+              </h1>
+              <p className="text-primary whitespace-pre-wrap break-words">
+                {test.description}
+              </p>
+              <p className="whitespace-pre-wrap break-words text-gray-500 mt-2 font-semibold">
+                Duration: {test.duration} mins
+              </p>
+              <p className="text-gray-400 text-xs">
+                {new Date(test.createdAt).toLocaleString()}
+              </p>
+            </div>
 
-              <div className="md:text-right space-y-2 md:space-y-0">
-                {!hasAttempted && testStarted && (
-                  <p className="text-red-600 font-bold text-lg">
-                    <span className="inline-block lg:hidden md:hidden me-2">
-                      Time Left:
-                    </span>
-                    {Math.floor(remainingTime / 60)}:
-                    {String(remainingTime % 60).padStart(2, "0")}
-                  </p>
-                )}
-                {!hasAttempted && !testStarted && (
-                  <Button onClick={handleStartTest} className="w-full">
-                    Start Test
-                  </Button>
-                )}
+            <div className="md:text-right space-y-2 md:space-y-0">
+              {!hasAttempted && testStarted && (
+                <p className="text-red-600 font-bold text-lg">
+                  <span className="inline-block lg:hidden md:hidden me-2">
+                    Time Left:
+                  </span>
+                  {Math.floor(remainingTime / 60)}:
+                  {String(remainingTime % 60).padStart(2, "0")}
+                </p>
+              )}
+              {!hasAttempted && !testStarted && (
+                <Button onClick={handleStartTest} className="w-full">
+                  Start Test
+                </Button>
+              )}
+              <form onSubmit={handleSubmit}>
                 {testStarted && (
                   <Button
                     onClick={handleSubmit}
@@ -249,114 +249,115 @@ const TestAttempt = () => {
                     Submit Test
                   </Button>
                 )}
+              </form>
+            </div>
+          </div>
+        </CardHeader>
+
+        <Separator className="mb-6 w-[98%] mx-auto" />
+
+        <CardContent>
+          {error && (
+            <Alert variant="destructive" className="mb-4">
+              <ExclamationTriangleIcon className="h-4 w-4" />
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          {!testStarted && !hasAttempted && (
+            <p className="text-gray-600 font-mono">
+              Click "Start Test" to begin the exam.
+            </p>
+          )}
+
+          {testStarted && currentQuestion && (
+            <div key={currentQuestion._id} className="mb-4">
+              <h3 className="text-base text-gray-800 mb-3 whitespace-pre-wrap break-words font-semibold">
+                <span>{currentQuestionIndex + 1} . </span>
+                {currentQuestion.questionText}
+              </h3>
+              <div className="space-y-2">
+                {currentQuestion.options.map((option) => (
+                  <div key={`${currentQuestion._id}-${option}`}>
+                    <Label>
+                      <RadioGroup
+                        onValueChange={(value) =>
+                          handleOptionChange(currentQuestion._id, value)
+                        }
+                        value={
+                          answers.find(
+                            (answer) =>
+                              answer.questionId === currentQuestion._id
+                          )?.selectedOption
+                        }
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem
+                            value={option}
+                            id={`${currentQuestion._id}-${option}`}
+                            className="h-4 w-4 border-gray-300"
+                          />
+                          <label
+                            htmlFor={`${currentQuestion._id}-${option}`}
+                            className="text-sm text-gray-600 whitespace-pre-wrap"
+                          >
+                            {option}
+                          </label>
+                        </div>
+                      </RadioGroup>
+                    </Label>
+                  </div>
+                ))}
               </div>
             </div>
-          </CardHeader>
+          )}
 
-          <Separator className="mb-6 w-[98%] mx-auto" />
+          {/* Previous and Next Buttons */}
+          {testStarted && (
+            <div className="flex justify-between mt-4">
+              <Button
+                onClick={handlePreviousQuestion}
+                disabled={currentQuestionIndex === 0}
+                className={`px-4 py-2 rounded-lg ${
+                  currentQuestionIndex === 0
+                    ? "cursor-default bg-gray-400 text-gray-600 pointer-events-none"
+                    : "bg-secondary text-white hover:bg-green-800"
+                }`}
+              >
+                Previous
+              </Button>
+              <Button
+                onClick={handleNextQuestion}
+                disabled={currentQuestionIndex === test.questions.length - 1}
+                className={`px-4 py-2 rounded-lg ${
+                  currentQuestionIndex === test.questions.length - 1
+                    ? "cursor-default bg-gray-400 text-gray-600 pointer-events-none"
+                    : "bg-secondary text-white hover:bg-green-700"
+                }`}
+              >
+                Next
+              </Button>
+            </div>
+          )}
 
-          <CardContent>
-            {error && (
-              <Alert variant="destructive" className="mb-4">
-                <ExclamationTriangleIcon className="h-4 w-4" />
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{error}</AlertDescription>
+          {hasAttempted && (
+            <div className=" flex flex-wrap justify-between gap-y-2">
+              <Alert>
+                <ExclamationTriangleIcon />
+                <AlertTitle className="font-mono font-semibold">
+                  Assessment Already Attempted!
+                </AlertTitle>
+                <AlertDescription>
+                  You have already attempted this assessment at{" "}
+                  {attemptedAt && new Date(attemptedAt).toLocaleString()}. Your
+                  previous score: {previousScore}/{test.questions.length}
+                </AlertDescription>
               </Alert>
-            )}
-
-            {!testStarted && !hasAttempted && (
-              <p className="text-gray-600 font-mono">
-                Click "Start Test" to begin the exam.
-              </p>
-            )}
-
-            {testStarted && currentQuestion && (
-              <div key={currentQuestion._id} className="mb-4">
-                <h3 className="text-base text-gray-800 mb-3 whitespace-pre-wrap break-words font-semibold">
-                  <span>{currentQuestionIndex + 1} . </span>
-                  {currentQuestion.questionText}
-                </h3>
-                <div className="space-y-2">
-                  {currentQuestion.options.map((option) => (
-                    <div key={`${currentQuestion._id}-${option}`}>
-                      <Label>
-                        <RadioGroup
-                          onValueChange={(value) =>
-                            handleOptionChange(currentQuestion._id, value)
-                          }
-                          value={
-                            answers.find(
-                              (answer) =>
-                                answer.questionId === currentQuestion._id
-                            )?.selectedOption
-                          }
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem
-                              value={option}
-                              id={`${currentQuestion._id}-${option}`}
-                              className="h-4 w-4 border-gray-300"
-                            />
-                            <label
-                              htmlFor={`${currentQuestion._id}-${option}`}
-                              className="text-sm text-gray-600 whitespace-pre-wrap"
-                            >
-                              {option}
-                            </label>
-                          </div>
-                        </RadioGroup>
-                      </Label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Previous and Next Buttons */}
-            {testStarted && (
-              <div className="flex justify-between mt-4">
-                <Button
-                  onClick={handlePreviousQuestion}
-                  disabled={currentQuestionIndex === 0}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentQuestionIndex === 0
-                      ? "cursor-default bg-gray-400 text-gray-600 pointer-events-none"
-                      : "bg-secondary text-white hover:bg-green-800"
-                  }`}
-                >
-                  Previous
-                </Button>
-                <Button
-                  onClick={handleNextQuestion}
-                  disabled={currentQuestionIndex === test.questions.length - 1}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentQuestionIndex === test.questions.length - 1
-                      ? "cursor-default bg-gray-400 text-gray-600 pointer-events-none"
-                      : "bg-secondary text-white hover:bg-green-700"
-                  }`}
-                >
-                  Next
-                </Button>
-              </div>
-            )}
-
-            {hasAttempted && (
-                <div className=" flex flex-wrap justify-between gap-y-2">
-                  <Alert>
-                    <ExclamationTriangleIcon />
-                    <AlertTitle className="font-mono font-semibold">Assessment Already Attempted!</AlertTitle>
-                    <AlertDescription>
-                      You have already attempted this assessment at{" "}
-                      {attemptedAt && new Date(attemptedAt).toLocaleString()}.
-                      Your previous score: {previousScore}/
-                      {test.questions.length}
-                    </AlertDescription>
-                  </Alert>
-                <Button onClick={() => navigate("/")}>Back</Button>
-                </div>
-            )}
-          </CardContent>
-        </form>
+              <Button onClick={() => navigate("/")}>Back</Button>
+            </div>
+          )}
+        </CardContent>
       </Card>
     </div>
   );
