@@ -18,6 +18,7 @@
     "@radix-ui/react-radio-group": "^1.2.1",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.2",
     "@shadcn/ui": "^0.0.4",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
@@ -31,6 +32,7 @@
     "shadcn-ui": "^0.9.2",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
+    "vaul": "^1.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

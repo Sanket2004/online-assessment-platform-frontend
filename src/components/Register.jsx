@@ -56,7 +56,7 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen ">
       <Card className="mx-auto max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
+          <CardTitle className="text-2xl font-bold font-mono">Sign Up</CardTitle>
           <CardDescription>
             Enter your information to create an account
           </CardDescription>
@@ -66,7 +66,7 @@ const Register = () => {
           {error && (
             <Alert variant="destructive" className="mb-4">
               <ExclamationTriangleIcon className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
+              <AlertTitle className="font-mono font-semibold">Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}

@@ -10,6 +10,8 @@ import TestDetail from "./components/TestDetails";
 import TestAttempt from "./components/TestAttempt";
 import { UserProvider } from "./components/UserContext";
 import InstructionsPage from "./components/InstructionsPage";
+import MyAssessments from "./components/MyAssessments";
+import { ToastProvider } from "./components/ui/toast"; // Adjust the path to where the toast component is located
 
 const App = () => {
   const [token, setToken] = useState(() => localStorage.getItem("token") || ""); // Load token from local storage
@@ -28,36 +30,40 @@ const App = () => {
   const isAuthenticated = !!token; // Check if user is authenticated based on the presence of a token
 
   return (
-    <UserProvider>
-      <Router>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login setToken={handleSetToken} />} />
-          <Route
-            path="/test/:id"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <TestTake token={token} />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-test"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <CreateTest />
-              </ProtectedRoute>
-            }
-          />
-          {/* <Route
+    <ToastProvider>
+      <UserProvider>
+        <Router>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/login"
+              element={<Login setToken={handleSetToken} />}
+            />
+            <Route
+              path="/test/:id"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <TestTake token={token} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create-test"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <CreateTest />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route
             path="/tests/:id"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
@@ -65,25 +71,34 @@ const App = () => {
               </ProtectedRoute>
             }
           /> */}
-          <Route
-            path="/tests/attempt/:id"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <TestAttempt />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/instructions"
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <InstructionsPage />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </UserProvider>
+            <Route
+              path="/tests/attempt/:id"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <TestAttempt />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-assessments"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <MyAssessments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/instructions"
+              element={
+                <ProtectedRoute isAuthenticated={isAuthenticated}>
+                  <InstructionsPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </UserProvider>
+    </ToastProvider>
   );
 };
 

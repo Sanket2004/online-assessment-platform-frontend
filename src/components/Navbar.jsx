@@ -37,29 +37,37 @@ const Navbar = ({ showSearchBar, setSearchTerm }) => {
           to="/"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <CpuIcon className="h-6 w-6" />
-          <span className="sr-only">Assessment App</span>
+          <div className="h-6 w-6 bg-primary rounded-full" />
+          <span className="sr-only">TESTSPHERE</span>
         </Link>
         <Link
           to="/"
-          className={`hover:text-foreground w-max transition-all duration-150 ${
-            activeLink === "/" ? "text-foreground border-b-4" : "text-muted-foreground"
+          className={`hover:text-secondary w-max transition-all duration-150 ${
+            activeLink === "/" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
           }`}
         >
           Dashboard
         </Link>
         <Link
           to="/create-test"
-          className={`hover:text-foreground w-max transition-all duration-150 ${
-            activeLink === "/create-test" ? "text-foreground border-b-4" : "text-muted-foreground"
+          className={`hover:text-secondary w-max transition-all duration-150 ${
+            activeLink === "/create-test" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
           }`}
         >
-          Create Assessment
+          Create Assessments
+        </Link>
+        <Link
+          to="/my-assessments"
+          className={`hover:text-secondary w-max transition-all duration-150 ${
+            activeLink === "/my-assessments" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
+          }`}
+        >
+          My Assessment
         </Link>
         <Link
           to="/instructions"
-          className={`hover:text-foreground w-max transition-all duration-150 ${
-            activeLink === "/instructions" ? "text-foreground border-b-4" : "text-muted-foreground"
+          className={`hover:text-secondary w-max transition-all duration-150 ${
+            activeLink === "/instructions" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
           }`}
         >
           Instructions
@@ -79,29 +87,37 @@ const Navbar = ({ showSearchBar, setSearchTerm }) => {
               to="/"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <CpuIcon className="h-6 w-6" />
-              <span className="sr-only">Assessment App</span>
+              <div className="h-6 w-6 bg-primary rounded-full" />
+              <span className="tracking-widest font-thin font-mono">TESTSPHERE</span>
             </Link>
             <Link
               to="/"
-              className={`hover:text-foreground w-max transition-all duration-150 ${
-                activeLink === "/" ? "text-foreground border-b-4" : "text-muted-foreground"
+              className={`hover:text-secondary w-max transition-all duration-150 ${
+                activeLink === "/" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
               }`}
             >
               Dashboard
             </Link>
             <Link
               to="/create-test"
-              className={`hover:text-foreground w-max transition-all duration-150 ${
-                activeLink === "/create-test" ? "text-foreground border-b-4" : "text-muted-foreground"
+              className={`hover:text-secondary w-max transition-all duration-150 ${
+                activeLink === "/create-test" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
               }`}
             >
               Create Assessment
             </Link>
             <Link
+              to="/my-assessments"
+              className={`hover:text-secondary w-max transition-all duration-150 ${
+                activeLink === "/my-assessments" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
+              }`}
+            >
+              My Assessments
+            </Link>
+            <Link
               to="/instructions"
-              className={`hover:text-foreground w-max transition-all duration-150 ${
-                activeLink === "/instructions" ? "text-foreground border-b-4" : "text-muted-foreground"
+              className={`hover:text-secondary w-max transition-all duration-150 ${
+                activeLink === "/instructions" ? "text-secondary border-b-2 border-primary" : "text-muted-foreground"
               }`}
             >
               Instructions
@@ -115,7 +131,7 @@ const Navbar = ({ showSearchBar, setSearchTerm }) => {
           <Input
             type="text"
             placeholder="Search assessments..."
-            className="pl-4 max-w-72 flex-1"
+            className="pl-4 max-w-72 flex-1 "
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         )}
@@ -131,7 +147,7 @@ const Navbar = ({ showSearchBar, setSearchTerm }) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel className="">My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>

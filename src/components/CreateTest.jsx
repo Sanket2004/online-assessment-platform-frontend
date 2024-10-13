@@ -82,10 +82,22 @@ const CreateTest = () => {
     <>
       <Navbar />
       <div className="max-w-6xl mx-auto py-8 px-6">
-        <h1 className="text-2xl font-bold ">Create new assessment</h1>
-        <p className="text-gray-400 mb-8">
-          Assessment is a way to assess someone's ability and efficiency.
-        </p>
+        <div className="flex justify-between items-start flex-wrap mb-8 gap-y-6">
+          <div className="">
+            <h1 className="text-2xl font-bold font-mono">Create new assessment</h1>
+            <p className="text-gray-400 ">
+              Assessment is a way to assess someone's ability and efficiency.
+            </p>
+          </div>
+          <Button type="submit" className="">
+            {loading ? (
+              <Loader className="h-5 w-5 animate-spin text-white" />
+            ) : (
+              "Create Assessment"
+            )}
+          </Button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block font-medium mb-2">Assessment Title</label>
@@ -124,7 +136,10 @@ const CreateTest = () => {
           </div>
 
           {questions.map((question, index) => (
-            <div key={index} className="border p-4 rounded-md">
+            <div
+              key={index}
+              className="border p-4 rounded-md bg-primary-foreground border-border shadow-md"
+            >
               <h3 className="font-semibold mb-4">Question {index + 1}</h3>
               <div>
                 <label className="block font-medium mb-2">Question Text</label>
@@ -140,11 +155,11 @@ const CreateTest = () => {
               <div>
                 <label className="block font-medium mb-2">Options</label>
                 {question.options.map((option, optionIndex) => (
-                  <div key={optionIndex} className="flex items-center mb-2">
+                  <div key={optionIndex} className="flex items-center mb-2 gap-2">
                     <Input
                       type="text"
                       value={option}
-                      className="flex-1 mr-2"
+                      className="flex-1"
                       onChange={(e) =>
                         handleOptionChange(index, optionIndex, e.target.value)
                       }
@@ -152,6 +167,7 @@ const CreateTest = () => {
                       required
                     />
                     {question.options.length > 2 && ( // Show Remove Option button only if there are more than two options
+                      <div className="group">
                       <Button
                         type="button"
                         onClick={() => {
@@ -161,9 +177,12 @@ const CreateTest = () => {
                           handleOptionChange(index, optionIndex, newOptions);
                         }}
                         variant="outline"
+                        className="h-9 w-9 p-0 bg-transparent hover:bg-red-500 transition-colors duration-200"
                       >
-                        <Trash2Icon size={15} className="text-red-500" />
+                        <Trash2Icon size={12} className="text-red-500 group-hover:text-white" />
                       </Button>
+                    </div>
+                    
                     )}
                   </div>
                 ))}
@@ -198,22 +217,9 @@ const CreateTest = () => {
               )}
             </div>
           ))}
-          <div className="flex gap-4 max-w-72">
-            <Button
-              type="button"
-              className="w-full flex-1"
-              onClick={handleAddQuestion}
-            >
-              +
-            </Button>
-            <Button type="submit" className="w-full">
-              {loading ? (
-                <Loader className="h-5 w-5 animate-spin text-white" />
-              ) : (
-                "Create Assessment"
-              )}
-            </Button>
-          </div>
+          <Button type="button" className="" onClick={handleAddQuestion}>
+            Add Question
+          </Button>
         </form>
       </div>
     </>

@@ -52,7 +52,7 @@ const Login = ({ setToken }) => {
     <div className="flex items-center justify-center min-h-screen ">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
+          <CardTitle className="text-2xl font-bold font-mono">Login</CardTitle>
           <CardDescription>
             Enter your Email and password to log in to your account.
           </CardDescription>
@@ -63,7 +63,7 @@ const Login = ({ setToken }) => {
           {error && (
             <Alert variant="destructive" className="mb-4">
               <ExclamationTriangleIcon className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
+              <AlertTitle className="font-mono font-semibold">Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}

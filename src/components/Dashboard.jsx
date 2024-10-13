@@ -53,11 +53,11 @@ const Dashboard = () => {
       <Navbar showSearchBar={true} setSearchTerm={setSearchTerm} />
       <div className="max-w-6xl mx-auto py-8 px-6">
         <div className="flex justify-between items-center mb-2">
-          <h1 className="text-2xl font-bold text-black">
+          <h1 className="text-2xl font-bold text-black whitespace-pre-wrap break-all font-mono">
             Available Assessments
           </h1>
         </div>
-        <p className="text-md text-gray-400 mb-10 capitalize">
+        <p className="text-md text-gray-400 mb-10 capitalize whitespace-pre-wrap break-all font-thin">
           Welcome, {user?.name.split(" ")[0]}
         </p>
 
@@ -69,12 +69,12 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredTests.map((test) => (
               <Link key={test._id} to={`/test/${test._id}`} className="group">
-                <Card className="hover:shadow-lg transition-all duration-150 border-b-4">
+                <Card className="hover:shadow-lg transition-all duration-150">
                   <CardHeader>
-                    <CardTitle className="text-xl font-bold">
+                    <CardTitle className="text-xl font-bold whitespace-pre-wrap break-all font-mono text-secondary">
                       {test.title}
                     </CardTitle>
-                    <CardDescription>{test.description}</CardDescription>
+                    <CardDescription className="whitespace-pre-wrap break-all text-primary">{test.description}</CardDescription>
                   </CardHeader>
                   <Separator className="mb-6 max-w-[95%] mx-auto"/>
                   <CardFooter className="text-xs flex flex-col justify-start items-start">
@@ -89,8 +89,8 @@ const Dashboard = () => {
                         </p>
                       </div>
                     </div>
-                    <p className="text-xs text-gray-500">
-                      Created At : {new Date(test.createdAt).toLocaleString()}
+                    <p className="text-xs text-gray-500 uppercase">
+                      published at {new Date(test.createdAt).toLocaleString()}
                     </p>
                   </CardFooter>
                 </Card>
