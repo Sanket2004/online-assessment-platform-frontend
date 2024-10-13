@@ -89,8 +89,8 @@ const Dashboard = () => {
                         </p>
                       </div>
                     </div>
-                    <p className="text-xs text-gray-500 uppercase">
-                      published at {new Date(test.createdAt).toLocaleString()}
+                    <p className="text-xs text-gray-500">
+                      Published at {new Date(test.createdAt).toLocaleString()}
                     </p>
                   </CardFooter>
                 </Card>
