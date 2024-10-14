@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "./UserContext";
@@ -18,6 +18,7 @@ const TestAttempt = () => {
   const [test, setTest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState([]);
+  const answersRef = useRef(answers); // Create a ref for answers
   const [error, setError] = useState(null);
   const [hasAttempted, setHasAttempted] = useState(false);
   const [previousScore, setPreviousScore] = useState(0);
@@ -28,6 +29,10 @@ const TestAttempt = () => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   const [attemptedAt, setAttemptedAt] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    answersRef.current = answers; // Keep ref updated with latest answers
+  }, [answers]);
 
   useEffect(() => {
     const fetchTest = async () => {
@@ -79,7 +84,7 @@ const TestAttempt = () => {
         setRemainingTime((prevTime) => {
           if (prevTime <= 0) {
             clearInterval(timer);
-            handleSubmit(); // Automatically submit when time runs out
+            handleSubmit(); // Ensure this uses the latest answers state
             return 0;
           }
           return prevTime - 1;
@@ -158,17 +163,23 @@ const TestAttempt = () => {
       return;
     }
 
+    // Make sure to collect the latest answers state
+    const finalAnswers = answersRef.current.map((answer) => ({
+      questionId: answer.questionId,
+      selectedOption: answer.selectedOption,
+    }));
+
     try {
       const response = await axios.post(`${backendUrl}/tests/attempt`, {
         userId: user._id,
         testId: id,
-        answers,
+        answers: finalAnswers,
       });
       alert(`Test submitted! Your score: ${response.data.score}`);
-      setTestStarted(false); // Hide the submit button after submission
-      setHasAttempted(true); // Mark the test as attempted
-      setPreviousScore(response.data.score); // Update the previous score state
-      exitFullscreen(); // Exit full-screen mode after submission
+      setTestStarted(false);
+      setHasAttempted(true);
+      setPreviousScore(response.data.score);
+      exitFullscreen();
     } catch (error) {
       console.error("Error submitting test:", error);
       setError(
@@ -342,10 +353,10 @@ const TestAttempt = () => {
           )}
 
           {hasAttempted && (
-            <div className=" flex flex-wrap justify-between gap-y-2">
+            <div className=" flex flex-wrap justify-between gap-y-6">
               <Alert>
                 <ExclamationTriangleIcon />
-                <AlertTitle className="font-mono font-semibold">
+                <AlertTitle className="font-semibold">
                   Assessment Already Attempted!
                 </AlertTitle>
                 <AlertDescription>

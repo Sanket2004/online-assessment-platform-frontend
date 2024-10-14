@@ -57,7 +57,7 @@ const Dashboard = () => {
             Available Assessments
           </h1>
         </div>
-        <p className="text-md text-gray-400 mb-10 capitalize whitespace-pre-wrap break-all font-thin">
+        <p className="text-md text-gray-500 mb-10 capitalize whitespace-pre-wrap break-all font-light">
           Welcome, {user?.name.split(" ")[0]}
         </p>
 

@@ -63,7 +63,7 @@ const Login = ({ setToken }) => {
           {error && (
             <Alert variant="destructive" className="mb-4">
               <ExclamationTriangleIcon className="h-4 w-4" />
-              <AlertTitle className="font-mono font-semibold">Error</AlertTitle>
+              <AlertTitle className="font-semibold">Error</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}

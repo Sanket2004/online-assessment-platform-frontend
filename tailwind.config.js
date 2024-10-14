@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Rethink Sans", ...defaultTheme.fontFamily.sans],
+        sans: ["Hanken Grotesk", ...defaultTheme.fontFamily.sans],
         mono: ["Space Mono", ...defaultTheme.fontFamily.mono],
       },
       borderRadius: {
